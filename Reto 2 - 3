@@ -3,7 +3,7 @@ class students():
         self.name = name
         self.id = id
         self.enrCourses = []
-    
+   
     def __str__(self):
         txt = "Student: {0} - id: {1} ({2})"
         return txt.format(self.name, self.id, self.enrCourses)
@@ -14,22 +14,24 @@ class students():
         else:
             self.enrCourses.append(course)
             course.students.append(self)
-            print("Matriculación exitosa")
+            print(f"{self.name} Matriculación exitosa en el curso de {course.name}")
 
     def cancel_course(self,course):                     #Point 3 from "Retos"
         if course == course in self.enrCourses:
             self.enrCourses.remove(course)
+            course.students.remove(self)
+            print(f"Se removió a {self.name} del curso de {course.name}")
         else:
-            print("No tiene el curso matriculado")
+            print(f"{self.name} No tiene el curso {course.name} matriculado")
+ 
 
-
-class Exams():                                      #Reto 3
+class Exams():                                                               #Reto 3
     def __init__(self, topic, percent, question):
         self.topic = topic
         self.percent = percent
         self.question = question
         self.course = []
-        
+       
     def __str__(self):
         txt = "Exam of: {0} - percent: {1} - questions: {2} - of the {3} course"
         return txt.format(self.topic, self.percent, self.question, self.course)
@@ -41,23 +43,24 @@ class teachers():
         self.id = id
         self.courses = []
         self.exams = []
-        
+       
     def __str__(self):
         txt = "Professor: {0} - id: {1} ({2})"
         return txt.format(self.name, self.id, self.courses, self.exams)
-    
-    def createExam(self, topic, percent, question, cour):       #Reto 3
+   
+    def createExam(self, topic, percent, question, cour):           #Reto 3
         exam=Exams(topic, percent, question)
-        exam.course=cour
         self.exams.append(exam)
+        cour.listExams.append(exam)
+        
 
     def teachesCourse(self, course):                
         if course == course in self.courses:
-            print(f"Ya esta enseñando el curso de {course.name}")
+            print(f"Ya esta enseñando en el curso de {course.name}")
         else:
             self.courses.append(course)
             course.professor.append(self)
-            print(f"El profesor {self.name} queda registrado en el curso de {course.name}")
+            print(f"El profesor {self.name} se registró en el curso de {course.name}")
 
 
 class courses():
@@ -66,30 +69,22 @@ class courses():
         self.grupo = group
         self.students = []
         self.professor = []
+        self.listExams = []
 
     def __str__(self):
-        txt = " Course: {0} - grupo: {1} - Students:({2}) - professor:({3})"
+        txt = " Course: {0} - grupo: {1} - Studentstriste{2}) - professortriste{3})"
         return txt.format(self.name, self.grupo, self.students, self.professor)
 
-    def printList(self,x):
-        studentsList=[]*x
-        for x in range(x):
-            studentsList.append(self.students[x].name)
-        return print(studentsList)
-
     def remove_student(self, stud):             #Point 4 from "Retos"
-        if stud == stud in self.students: 
+        if stud == stud in self.students:
             self.students.remove(stud)
             print(f"El estudiante {stud.name} ha sido removido del curso de {self.name} exitosamente")
         else:
             print(f"El estudiante {stud.name} no esta matriculado en el curso de {self.name}")
 
-    def get_student_list(self):                 #Point 5 from "Retos"
-        list=[]*len(self.students)
+    def get_student_list(self):                #Point 5 from "Retos"
         if len(self.students) >= 1:
-            for i in range(len(self.students)):
-                list.append(self.students[i].name)
-            print(list)
+            return print([i.name for i in self.students])
         else:
             print(f"El curso de {self.name} no tiene estudiantes matriculados")
 
@@ -124,16 +119,15 @@ teacher1.teachesCourse(course1)
 teacher2.teachesCourse(course2)
 teacher3.teachesCourse(course3)
 
-course1.get_student_list() #See the names of students who are in the course
+course1.get_student_list()             #See the names of students who are in the course
 
 student1.cancel_course(course1)
 course1.remove_student(student1)
 
-course1.get_student_list() #See the names of students after removing one of them
+course1.get_student_list()             #See the names of students after removing one of them
 
-
-teacher1.createExam("factorizacion", "15%", "4", course1)       #Reto  3
+teacher1.createExam("factorizacion", 15, "4", course1)       #Reto  3
 print(teacher1.exams[0])
 
-teacher2.createExam("trigonometria", "20%", "5", course2)
+teacher2.createExam("trigonometria", 20, "5", course2)
 print(teacher2.exams[0])
