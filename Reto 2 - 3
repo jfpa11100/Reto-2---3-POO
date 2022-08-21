@@ -45,7 +45,7 @@ class teachers():
         self.exams = []
        
     def __str__(self):
-        txt = "Professor: {0} - id: {1} ({2})"
+        txt = "Professor: {0} - id: {1} courses: ({2}) - exams: {3}"
         return txt.format(self.name, self.id, self.courses, self.exams)
    
     def createExam(self, topic, percent, question, cour):           #Reto 3
@@ -72,8 +72,8 @@ class courses():
         self.listExams = []
 
     def __str__(self):
-        txt = " Course: {0} - grupo: {1} - Studentstriste{2}) - professortriste{3})"
-        return txt.format(self.name, self.grupo, self.students, self.professor)
+        txt = " Course: {0} - group: {1} - Students: ({2}) - professor: {3} - exams: {4})"
+        return txt.format(self.name, self.grupo, self.students, self.professor, self.listExams)
 
     def remove_student(self, stud):             #Point 4 from "Retos"
         if stud == stud in self.students:
